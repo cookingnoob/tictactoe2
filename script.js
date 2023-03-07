@@ -5,14 +5,21 @@ const Gameboard = (() => {
     const cells = document.querySelectorAll('.cell');
 
     cells.forEach(cell => gameboard.push(cell));
-    console.log(gameboard);
-    
-    const chooseCell = () => cells.forEach(cell => clickCell(cell));
+    console.log(gameboard[0].textContent);
 
+  
+   return {}
+})();
+
+
+
+const displayController = (() => {
+    //selects a cell in the gameboard to store a value into it
+    const cells = document.querySelectorAll('.cell');
+    const chooseCell = () => cells.forEach(cell => clickCell(cell));
     const clickCell = (cell) => { 
         cell.addEventListener('click', () => {addText(cell)})};
-
-      const addText = (cell) => {
+    const addText = (cell) => {
         if(cell.textContent !== ''){
           return;
         } else { 
@@ -20,18 +27,17 @@ const Gameboard = (() => {
         }
       };
 
-   return {chooseCell}
+      return {chooseCell}
 })();
-Gameboard.chooseCell()
+displayController.chooseCell()
 
-const displayController = (() => {
+const playerFactory = () => {
+    
 
-})();
-
-
-const playerFactory = (value) => {
-
+    return{}
 };
+
+
 
 
 //Gameboard:
