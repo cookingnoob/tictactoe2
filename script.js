@@ -3,8 +3,10 @@ const Gameboard = (() => {
     const gameboard = [];
 
     const cells = document.querySelectorAll('.cell');
+
     cells.forEach(cell => gameboard.push(cell));
-    console.log(gameboard)
+    console.log(gameboard);
+    
     const chooseCell = () => cells.forEach(cell => clickCell(cell));
 
     const clickCell = (cell) => { 
