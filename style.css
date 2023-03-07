@@ -1,3 +1,35 @@
-*{
-    background-color: aqua;
+.board{    
+    display: grid;
+    grid-template-columns: repeat(3, 200px);
+    grid-template-rows: repeat(3,200px);
+    justify-content: center;
+    align-items: center;
+}
+.cell{
+    display: grid;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid black;
+    height: 200px;
+    
+}
+.cell:hover{
+    background-color: rgb(234, 234, 234);
+} 
+.playerSelection{
+    display: grid;
+    grid-template-columns: repeat(2, 100px);
+    gap: 20px;
+}
+.playerBtn{
+    height: 50px;
+    width: 100px;
+    background-color: rebeccapurple;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: aliceblue;
+}
+.row{
+    background-color: yellow;
 }
