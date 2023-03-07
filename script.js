@@ -1,16 +1,25 @@
 
 const Gameboard = (() => {
     const gameboard = [];
-
+    //pushes the cells to the array
     const cells = document.querySelectorAll('.cell');
-
     cells.forEach(cell => gameboard.push(cell));
-    console.log(gameboard[0].textContent);
-
+    
+    //una forma de definir columnas y renglones
+    // renglones [0, 1, 2]  [3, 4, 5] [6, 7, 8] 
+    //columnas [0, 3, 6] [1, 4, 7] [2, 5, 8]
+    //diagonales [0, 4, 8] [2, 4, 6]
+    const winConditions = () => {
+        if (gameboard[0].textContent == gameboard[1].textContent && gameboard[1].textContent == gameboard[2].textContent && gameboard[0].textContent == gameboard[2].textContent && gameboard[0].textContent != ''){
+            console.log('ganaste');
+            return
+        }
+    }
   
-   return {}
+   return {winConditions}
 })();
 
+// 
 
 
 const displayController = (() => {
@@ -23,20 +32,37 @@ const displayController = (() => {
         if(cell.textContent !== ''){
           return;
         } else { 
-          cell.textContent = 'playerValue'; 
+          cell.textContent = playerValue; 
         }
+        Gameboard.winConditions()
       };
 
       return {chooseCell}
 })();
 displayController.chooseCell()
 
-const playerFactory = () => {
-    
 
-    return{}
+
+
+const playerFactory = (name) => {
+   
+   const choosePlayer = document.createElement('div');
+   choosePlayer.classList.add('playerBtn');
+   choosePlayer.textContent = name;
+   const playerSelection = document.querySelector('.playerSelection');
+   playerSelection.appendChild(choosePlayer);
+
+
+   const click = ()=> choosePlayer.addEventListener('click', value);
+   const value = () => playerValue = name;
+
+    return{click}
 };
+const playerX = playerFactory('X')
+playerX.click()
 
+const playerO = playerFactory('O')
+playerO.click()
 
 
 
