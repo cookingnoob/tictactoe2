@@ -37,13 +37,12 @@ const Gameboard = (() => {
 
     const botTurn = () => {
         let randomCell = Math.floor(Math.random() * gameboard.length);
-        if(gameboard[randomCell].textContent = ''){
-            gameboard[randomCell].textContent = 'botValue'
+        while (cells[randomCell].textContent != '') {
+            randomCell = Math.floor(Math.random() * gameboard.length);
+        };
+        cells[randomCell].textContent = botValue;
+        winConditions(botValue)
         }
-        console.log( gameboard[randomCell])
-        }
-    
-    
    return {winConditions, botTurn}
 })();
 
