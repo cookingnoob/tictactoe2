@@ -33,3 +33,6 @@
 .row{
     background-color: yellow;
 }
+.remove{
+    display: none;
+}
