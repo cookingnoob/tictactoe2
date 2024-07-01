@@ -17,7 +17,6 @@ const gameboard = (() => {
       board.appendChild(cell);
       cells.push(cell);
     }
-
     return { cells };
   };
 
@@ -26,20 +25,65 @@ const gameboard = (() => {
     const startButton = document.createElement('button')
     startButton.innerText = 'Start Game'
     body.appendChild(startButton)
-    return startButton
+    return { startButton }
   }
 
-  return { renderCells , renderStartButton};
+  return { renderCells, renderStartButton };
 })();
+
+//gives player and bot a value to play
+const createPlayer = (() => {
+
+  const renderPlayerValueButtons = () => {
+    const body = document.querySelector("body");
+    const playerBtnsContainer = document.createElement('div')
+    playerBtnsContainer.classList.add('playerSelection')
+    body.appendChild(playerBtnsContainer)
+
+    const playerXBtn = document.createElement('button')
+    const playerYBtn = document.createElement('button')
+    playerXBtn.classList.add('playerBtn')
+    playerYBtn.classList.add('playerBtn')
+    playerXBtn.innerText = 'X'
+    playerYBtn.innerText = 'O'
+    playerBtnsContainer.append(playerXBtn, playerYBtn)
+    return { playerXBtn, playerYBtn }
+  }
+
+  const handlePlayerValue = (value) => {
+    const player = value
+    console.log('player value:', player)
+    botValue(player)
+    return player
+  }
+
+  const botValue = (player) => {
+    let bot;
+    player === 'X' ? bot = 'O' : bot = 'X'
+    console.log('bot value ', bot)
+  }
+
+
+
+  const showPlayerValueBtns = () => {
+    const { playerXBtn, playerYBtn } = renderPlayerValueButtons()
+    const functionalPlayerXBtn = () => playerXBtn.addEventListener('click', () => handlePlayerValue(playerXBtn.innerHTML))
+    const functionalPlayerYBtn = () => playerYBtn.addEventListener('click', () => handlePlayerValue(playerYBtn.innerHTML))
+    return { functionalPlayerXBtn, functionalPlayerYBtn }
+  }
+
+  return { showPlayerValueBtns }
+})()
 
 //handles game logic such as turns, checks for winner or ties
 const gameController = (() => {
-  
-//   const { cells } = gameboard.renderCells();
 
+  const { startButton } = gameboard.renderStartButton()
+  const { cells } = gameboard.renderCells();
+  const { functionalPlayerXBtn, functionalPlayerYBtn } = createPlayer.showPlayerValueBtns()
 
   const winningCombinations = [
-    [0, 1, 2],[3, 4, 5],[6, 7, 8],[0, 3, 6],[1, 4, 7],[2, 5, 8],[0, 4, 8],[2, 4, 6],
+    [0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6], [1, 4, 7], [2, 5, 8], [0, 4, 8], [2, 4, 6],
   ];
 
   const addValueToCells = (cell, index, value) => {
@@ -59,54 +103,26 @@ const gameController = (() => {
     });
   };
 
-  return { functionalCell, startGame };
+  const functionalStartButton = () => {
+    startButton.addEventListener('click', () => console.log('start button'))
+  }
+
+
+  const startGame = () => {
+    functionalStartButton()
+    functionalCell()
+    functionalPlayerXBtn()
+    functionalPlayerYBtn()
+  }
+
+
+  return { startGame, };
 })();
-
-
 gameController.startGame()
 
-//gives player and bot a value to play
-const createPlayer = (() => {
-    const renderPlayerValueButtons = () => {
-        const body = document.querySelector("body");
-        const playerBtnsContainer = document.createElement('div')
-        playerBtnsContainer.classList.add('playerSelection')
-        body.appendChild(playerBtnsContainer)
-    
-        const playerXBtn = document.createElement('button')
-        const playerYBtn = document.createElement('button')
-        playerXBtn.classList.add('playerBtn')
-        playerYBtn.classList.add('playerBtn')
-        playerXBtn.innerText = 'X'
-        playerYBtn.innerText = 'O'
-        playerBtnsContainer.append(playerXBtn, playerYBtn)
-        return {playerXBtn, playerYBtn}
-      }
-      
-      const handlePlayerValue = (value) => {
-        const player = value
-        botValue(player)
-        return player
-     }
-    
-     const botValue = (player) => {
-        let bot;
-        player === 'X' ? bot = 'O' : bot = 'X'
-     }
-    
-     const randomTurn = () => {
-    
-     }
-    
-      const showPlayerValueBtns = () => {
-        const {playerXBtn, playerYBtn} = createPlayer.renderPlayerValueButtons()
-        playerXBtn.addEventListener('click', ()=> handlePlayerValue(playerXBtn.innerHTML))
-        playerYBtn.addEventListener('click', () => handlePlayerValue(playerYBtn.innerHTML))
-        return 
-      }
 
-    return {renderPlayerValueButtons}
-})()
+
+
 
 
 // const Gameboard = (() => {
