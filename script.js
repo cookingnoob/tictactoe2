@@ -56,38 +56,8 @@ const createPlayer = (() => {
     playerBtnsContainer.append(playerXBtn, playerOBtn)
     return { playerXBtn, playerOBtn }
   }
-  //sets player value and calls bot value
-  const handlePlayerValue = (value) => {
-    let player = value
-    const bot = botValue(player)
-    return { player, bot }
-  }
 
-  //bot value is defined by what the player didnt choose
-  const botValue = (player) => {
-    let bot;
-    player === 'X' ? bot = 'O' : bot = 'X'
-    return bot
-  }
-  //returns player button that on click the player and bot values are defined 
-  const choosePlayerValueBtns = () => {
-    const { playerXBtn, playerOBtn } = renderPlayerValueButtons()
-
-    const functionalPlayerXBtn = () => playerXBtn.addEventListener('click', () => {
-      const { player, bot } = handlePlayerValue(playerXBtn.innerHTML);
-      console.log(player, bot)
-      return { player, bot }
-    })
-    const functionalPlayerOBtn = () => playerOBtn.addEventListener('click', () => {
-      const { player, bot } = handlePlayerValue(playerOBtn.innerHTML);
-      console.log(player, bot)
-      return { player, bot }
-
-    })
-    return { functionalPlayerXBtn, functionalPlayerOBtn, }
-  }
-
-  return { choosePlayerValueBtns, handlePlayerValue, botValue }
+  return { renderPlayerValueButtons }
 })()
 
 //handles game logic such as turns, checks for winner or ties
@@ -120,13 +90,32 @@ const gameController = (() => {
     });
   };
 
+  const choosePlayerValueBtns = async () => {
+    const { playerXBtn, playerOBtn } = createPlayer.renderPlayerValueButtons()
+
+
+    return new Promise((resolve) => {
+      playerXBtn.addEventListener('click', () => {
+        let player = 'X';
+        let bot = 'O'
+        resolve({ player, bot })
+      })
+
+      playerOBtn.addEventListener('click', () => {
+        let player = 'O';
+        let bot = 'X';
+        resolve({ player, bot })
+      })
+    })
+
+  }
+
   const handleStartOfGame = (isStarted) => {
-    startButton.addEventListener('click', () => {
+    startButton.addEventListener('click', async () => {
       isStarted.start = true
       startButton.style.display = 'none';
-      const { functionalPlayerXBtn, functionalPlayerOBtn } = createPlayer.choosePlayerValueBtns()
-      functionalPlayerXBtn();
-      functionalPlayerOBtn();
+      const { player, bot } = await choosePlayerValueBtns()
+      console.log('Player:', player, 'Bot:', bot);
     })
   }
 
