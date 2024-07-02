@@ -59,20 +59,31 @@ const createPlayer = (() => {
   //sets player value and calls bot value
   const handlePlayerValue = (value) => {
     let player = value
-    botValue(player)
-    return player
+    const bot = botValue(player)
+    return { player, bot }
   }
 
   //bot value is defined by what the player didnt choose
   const botValue = (player) => {
     let bot;
     player === 'X' ? bot = 'O' : bot = 'X'
+    return bot
   }
   //returns player button that on click the player and bot values are defined 
   const choosePlayerValueBtns = () => {
     const { playerXBtn, playerOBtn } = renderPlayerValueButtons()
-    const functionalPlayerXBtn = () => playerXBtn.addEventListener('click', () => { handlePlayerValue(playerXBtn.innerHTML); console.log('funciona') })
-    const functionalPlayerOBtn = () => playerOBtn.addEventListener('click', () => { handlePlayerValue(playerOBtn.innerHTML); console.log('funciona') })
+
+    const functionalPlayerXBtn = () => playerXBtn.addEventListener('click', () => {
+      const { player, bot } = handlePlayerValue(playerXBtn.innerHTML);
+      console.log(player, bot)
+      return { player, bot }
+    })
+    const functionalPlayerOBtn = () => playerOBtn.addEventListener('click', () => {
+      const { player, bot } = handlePlayerValue(playerOBtn.innerHTML);
+      console.log(player, bot)
+      return { player, bot }
+
+    })
     return { functionalPlayerXBtn, functionalPlayerOBtn, }
   }
 
