@@ -33,7 +33,7 @@ const gameboard = (() => {
 
 //gives player and bot a value to play
 const createPlayer = (() => {
-
+  //handles DOM element for player buttons containers
   const playerBtnsContainerCreator = () => {
     const body = document.querySelector("body");
     const playerBtnsContainer = document.createElement('div')
@@ -41,53 +41,55 @@ const createPlayer = (() => {
     body.appendChild(playerBtnsContainer)
     return { playerBtnsContainer }
   }
+  //factory for player button
   const createPlayerBtn = (value) => {
     const btnName = document.createElement('button');
     btnName.classList.add('playerBtn')
     btnName.innerText = value;
     return btnName
   }
+  //creates two buttons 
   const renderPlayerValueButtons = () => {
     const { playerBtnsContainer } = playerBtnsContainerCreator()
     const playerXBtn = createPlayerBtn('X')
-    const playerYBtn = createPlayerBtn('O')
-    playerBtnsContainer.append(playerXBtn, playerYBtn)
-    return { playerXBtn, playerYBtn }
+    const playerOBtn = createPlayerBtn('O')
+    playerBtnsContainer.append(playerXBtn, playerOBtn)
+    return { playerXBtn, playerOBtn }
   }
-
+  //sets player value and calls bot value
   const handlePlayerValue = (value) => {
-    const player = value
-    console.log('player value:', player)
+    let player = value
     botValue(player)
     return player
   }
 
+  //bot value is defined by what the player didnt choose
   const botValue = (player) => {
     let bot;
     player === 'X' ? bot = 'O' : bot = 'X'
-    console.log('bot value ', bot)
   }
-
+  //returns player button that on click the player and bot values are defined 
   const choosePlayerValueBtns = () => {
-    const { playerXBtn, playerYBtn } = renderPlayerValueButtons()
-    const functionalPlayerXBtn = () => playerXBtn.addEventListener('click', () => handlePlayerValue(playerXBtn.innerHTML))
-    const functionalPlayerYBtn = () => playerYBtn.addEventListener('click', () => handlePlayerValue(playerYBtn.innerHTML))
-    return { functionalPlayerXBtn, functionalPlayerYBtn }
+    const { playerXBtn, playerOBtn } = renderPlayerValueButtons()
+    const functionalPlayerXBtn = () => playerXBtn.addEventListener('click', () => { handlePlayerValue(playerXBtn.innerHTML); console.log('funciona') })
+    const functionalPlayerOBtn = () => playerOBtn.addEventListener('click', () => { handlePlayerValue(playerOBtn.innerHTML); console.log('funciona') })
+    return { functionalPlayerXBtn, functionalPlayerOBtn, }
   }
 
-  return { choosePlayerValueBtns }
+  return { choosePlayerValueBtns, handlePlayerValue, botValue }
 })()
 
 //handles game logic such as turns, checks for winner or ties
 const gameController = (() => {
 
   const { startButton } = gameboard.renderStartButton()
-
-  const { functionalPlayerXBtn, functionalPlayerYBtn } = createPlayer.choosePlayerValueBtns()
+  // const { playerValue } = createPlayer.handlePlayerValue()
+  // const { botValue } = createPlayer.botValue()
 
   const winningCombinations = [
     [0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6], [1, 4, 7], [2, 5, 8], [0, 4, 8], [2, 4, 6],
   ];
+
 
   const addValueToCells = (cell, index, value) => {
     cell.innerHTML = value;
@@ -107,40 +109,23 @@ const gameController = (() => {
     });
   };
 
-  const functionalStartButton = () => {
-    startButton.addEventListener('click', () => console.log('start button'))
+  const handleStartOfGame = (isStarted) => {
+    startButton.addEventListener('click', () => {
+      isStarted.start = true
+      startButton.style.display = 'none';
+      const { functionalPlayerXBtn, functionalPlayerOBtn } = createPlayer.choosePlayerValueBtns()
+      functionalPlayerXBtn();
+      functionalPlayerOBtn();
+    })
   }
 
-
-
-
-  //ganar
-  //si alguien gana sale un letrero de quien fue
-  //sale un boton de reiniciar partida
-
   const startGame = () => {
-    //inicia el juego
-    //se inicia haciendo render de los botones de jugador
-    //cuando el jugador escoge un valor ocurre
-    //desaparece el boton de start
-    //se agrega un valor al jugador
-    //se agrega un valor al bot
-    //se define un turno de forma aleatoria
-
-    functionalStartButton()
-    functionalPlayerXBtn()
-    functionalPlayerYBtn()
+    let isStarted = { start: false }
+    handleStartOfGame(isStarted)
   }
 
   const turn = () => {
-    //inicia el primer turno
-    //si es el bot elige de forma aleatoria una casilla
-    //el jugador no puede elegir mientras el bot lo hace
-    //si es el jugador elige
-    //se checa si gano
-    //si no se gano se pasa al siguiente jugador
   }
-
 
   return { startGame, };
 })();
@@ -200,28 +185,3 @@ gameController.startGame()
 // displayController.chooseCell()
 
 
-
-// const playerFactory = (name) => {
-//    const choosePlayer = document.createElement('div');
-//    choosePlayer.classList.add('playerBtn');
-//    choosePlayer.textContent = name;
-//    const playerSelection = document.querySelector('.playerSelection');
-//    playerSelection.appendChild(choosePlayer);
-
-//    const click = ()=> choosePlayer.addEventListener('click', value);
-//    const value = () =>{
-//             playerValue = name;
-//             if (playerValue === 'X'){
-//                 botValue = 'O'
-//             } else if (playerValue === 'O'){
-//                 botValue = 'X'
-//             }
-//         }
-//     return{click}
-// };
-
-// const playerX = playerFactory('X')
-// playerX.click()
-
-// const playerO = playerFactory('O')
-// playerO.click()
