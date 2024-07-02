@@ -68,22 +68,22 @@ const createPlayer = (() => {
     console.log('bot value ', bot)
   }
 
-  const showPlayerValueBtns = () => {
+  const choosePlayerValueBtns = () => {
     const { playerXBtn, playerYBtn } = renderPlayerValueButtons()
     const functionalPlayerXBtn = () => playerXBtn.addEventListener('click', () => handlePlayerValue(playerXBtn.innerHTML))
     const functionalPlayerYBtn = () => playerYBtn.addEventListener('click', () => handlePlayerValue(playerYBtn.innerHTML))
     return { functionalPlayerXBtn, functionalPlayerYBtn }
   }
 
-  return { showPlayerValueBtns }
+  return { choosePlayerValueBtns }
 })()
 
 //handles game logic such as turns, checks for winner or ties
 const gameController = (() => {
 
   const { startButton } = gameboard.renderStartButton()
-  const { cells } = gameboard.renderCells();
-  const { functionalPlayerXBtn, functionalPlayerYBtn } = createPlayer.showPlayerValueBtns()
+
+  const { functionalPlayerXBtn, functionalPlayerYBtn } = createPlayer.choosePlayerValueBtns()
 
   const winningCombinations = [
     [0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6], [1, 4, 7], [2, 5, 8], [0, 4, 8], [2, 4, 6],
@@ -101,6 +101,7 @@ const gameController = (() => {
 
   //returns the array of cells with a functional eventListener
   const functionalCell = (value) => {
+    const { cells } = gameboard.renderCells();
     cells.forEach((cell, index) => {
       cell.addEventListener("click", () => handleClickTurn(cell, index, value));
     });
@@ -111,11 +112,33 @@ const gameController = (() => {
   }
 
 
+
+
+  //ganar
+  //si alguien gana sale un letrero de quien fue
+  //sale un boton de reiniciar partida
+
   const startGame = () => {
+    //inicia el juego
+    //se inicia haciendo render de los botones de jugador
+    //cuando el jugador escoge un valor ocurre
+    //desaparece el boton de start
+    //se agrega un valor al jugador
+    //se agrega un valor al bot
+    //se define un turno de forma aleatoria
+
     functionalStartButton()
-    functionalCell()
     functionalPlayerXBtn()
     functionalPlayerYBtn()
+  }
+
+  const turn = () => {
+    //inicia el primer turno
+    //si es el bot elige de forma aleatoria una casilla
+    //el jugador no puede elegir mientras el bot lo hace
+    //si es el jugador elige
+    //se checa si gano
+    //si no se gano se pasa al siguiente jugador
   }
 
 
