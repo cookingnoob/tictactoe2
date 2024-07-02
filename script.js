@@ -34,18 +34,23 @@ const gameboard = (() => {
 //gives player and bot a value to play
 const createPlayer = (() => {
 
-  const renderPlayerValueButtons = () => {
+  const playerBtnsContainerCreator = () => {
     const body = document.querySelector("body");
     const playerBtnsContainer = document.createElement('div')
     playerBtnsContainer.classList.add('playerSelection')
     body.appendChild(playerBtnsContainer)
-
-    const playerXBtn = document.createElement('button')
-    const playerYBtn = document.createElement('button')
-    playerXBtn.classList.add('playerBtn')
-    playerYBtn.classList.add('playerBtn')
-    playerXBtn.innerText = 'X'
-    playerYBtn.innerText = 'O'
+    return { playerBtnsContainer }
+  }
+  const createPlayerBtn = (value) => {
+    const btnName = document.createElement('button');
+    btnName.classList.add('playerBtn')
+    btnName.innerText = value;
+    return btnName
+  }
+  const renderPlayerValueButtons = () => {
+    const { playerBtnsContainer } = playerBtnsContainerCreator()
+    const playerXBtn = createPlayerBtn('X')
+    const playerYBtn = createPlayerBtn('O')
     playerBtnsContainer.append(playerXBtn, playerYBtn)
     return { playerXBtn, playerYBtn }
   }
@@ -62,8 +67,6 @@ const createPlayer = (() => {
     player === 'X' ? bot = 'O' : bot = 'X'
     console.log('bot value ', bot)
   }
-
-
 
   const showPlayerValueBtns = () => {
     const { playerXBtn, playerYBtn } = renderPlayerValueButtons()
@@ -118,6 +121,7 @@ const gameController = (() => {
 
   return { startGame, };
 })();
+
 gameController.startGame()
 
 
