@@ -86,15 +86,14 @@ const gameController = (() => {
     });
   };
 
-  const choosePlayerValueBtns = async () => {
-    const { playerXBtn, playerOBtn } = createPlayer.renderPlayerValueButtons()
-
+  const choosePlayerValueBtns = async (playerXBtn, playerOBtn) => {
     return new Promise((resolve) => {
       playerXBtn.addEventListener('click', () => {
         let player = 'X';
         let bot = 'O'
         resolve({ player, bot })
       })
+
       playerOBtn.addEventListener('click', () => {
         let player = 'O';
         let bot = 'X';
@@ -105,9 +104,12 @@ const gameController = (() => {
 
   const handleStartOfGame = async () => {
     startButton.style.display = 'none';
-    const { player, bot } = await choosePlayerValueBtns()
-    console.log('Player:', player, 'Bot:', bot);
+    const { playerXBtn, playerOBtn } = await createPlayer.renderPlayerValueButtons()
+    const { player, bot } = await choosePlayerValueBtns(playerXBtn, playerOBtn)
+    await turn(player, bot)
   }
+  //escoger jugadores es una funcion en si
+
   startButton.addEventListener('click', handleStartOfGame)
 
   const startGame = () => {
@@ -115,6 +117,7 @@ const gameController = (() => {
   }
 
   const turn = (player, bot) => {
+    console.log('funciona turn', player, bot)
   }
 
   return { startGame, };
