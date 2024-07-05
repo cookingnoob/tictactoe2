@@ -107,22 +107,19 @@ const gameController = (() => {
     const { playerXBtn, playerOBtn } = await createPlayer.renderPlayerValueButtons()
     const { player, bot } = await choosePlayerValueBtns(playerXBtn, playerOBtn)
     await handleTurn(player, bot)
+    playerXBtn.style.display = 'none';
+    playerOBtn.style.display = 'none';
   }
 
   startButton.addEventListener('click', handleStartOfGame)
 
-  const handleTurn = (player, bot) => {
+  const handleTurn = async (player, bot) => {
     let turn = 0;
-    let whoIsPlaying = 'human'
     if (turn == 0) {
+      random = Math.floor(Math.random() * 100);
+      console.log(random)
+    }
 
-    }
-    if (whoIsPlaying == 'human') {
-      functionalCell(player)
-    }
-    if (whoIsPlaying == 'bot') {
-      functionalCell(bot)
-    }
   }
 
 
