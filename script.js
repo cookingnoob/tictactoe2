@@ -121,10 +121,21 @@ const gameController = (() => {
     }
     return begins
   }
+
+  const handleWhoPlays = async (turn, whoBegins, player, bot) => {
+    if (whoBegins == 'human') {
+      const humanTurn = await functionalCell(player)
+
+    } else if (whoBegins == 'bot') {
+      const botTurn = await functionalCell(bot)
+
+    }
+  }
+
   const handleTurn = async (player, bot) => {
     let turn = 0;
     const whoBegins = await handleWhoTakesFirstTurn(turn)
-    console.log(whoBegins)
+    const whoPlayed = await handleWhoPlays(turn, whoBegins, player, bot)
   }
 
 
