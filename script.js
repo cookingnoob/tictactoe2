@@ -113,13 +113,18 @@ const gameController = (() => {
 
   startButton.addEventListener('click', handleStartOfGame)
 
+  const handleWhoTakesFirstTurn = async (turn) => {
+    let begins;
+    if (turn == 0) {
+      const random = await Math.floor(Math.random() * 100);
+      random > 50 ? begins = 'bot' : begins = 'human'
+    }
+    return begins
+  }
   const handleTurn = async (player, bot) => {
     let turn = 0;
-    if (turn == 0) {
-      random = Math.floor(Math.random() * 100);
-      console.log(random)
-    }
-
+    const whoBegins = await handleWhoTakesFirstTurn(turn)
+    console.log(whoBegins)
   }
 
 
