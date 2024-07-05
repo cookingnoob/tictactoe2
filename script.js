@@ -135,9 +135,25 @@ const gameController = (() => {
   const handleTurn = async (player, bot) => {
     let turn = 0;
     const whoBegins = await handleWhoTakesFirstTurn(turn)
+    //mientras se acava el juego:
     const whoPlayed = await handleWhoPlays(turn, whoBegins, player, bot)
+
+    const checkWinner = (whoPlayed) => {
+      //checar cada casilla
+    }
+    const declareWinner = (winner) => {
+      //declara si alguien gana o pierde
+    }
+    const newGame = () => {
+      //renderea boton de new game
+    }
+    const winnerCount = (winner) => {
+      //checa quien gano y suma un punto a ese jugador
+    }
   }
 
+  //falta funcion para que despues de que bot o humano jueguen, cheque si alguien gano
+  //tener en loop esto hasta que o alguien gane o empate
 
 })();
 
