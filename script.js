@@ -64,13 +64,10 @@ const createPlayer = (() => {
 const gameController = (() => {
 
   const { startButton } = gameboard.renderStartButton()
-  // const { playerValue } = createPlayer.handlePlayerValue()
-  // const { botValue } = createPlayer.botValue()
 
   const winningCombinations = [
     [0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6], [1, 4, 7], [2, 5, 8], [0, 4, 8], [2, 4, 6],
   ];
-
 
   const addValueToCells = (cell, index, value) => {
     cell.innerHTML = value;
@@ -79,7 +76,6 @@ const gameController = (() => {
 
   const handleClickTurn = (cell, index, value) => {
     addValueToCells(cell, index, value);
-    //checkWinner
   };
 
   //returns the array of cells with a functional eventListener
@@ -93,38 +89,36 @@ const gameController = (() => {
   const choosePlayerValueBtns = async () => {
     const { playerXBtn, playerOBtn } = createPlayer.renderPlayerValueButtons()
 
-
     return new Promise((resolve) => {
       playerXBtn.addEventListener('click', () => {
         let player = 'X';
         let bot = 'O'
         resolve({ player, bot })
       })
-
       playerOBtn.addEventListener('click', () => {
         let player = 'O';
         let bot = 'X';
         resolve({ player, bot })
       })
     })
-
   }
 
-  const handleStartOfGame = (isStarted) => {
+  const handleStartOfGame = () => {
     startButton.addEventListener('click', async () => {
-      isStarted.start = true
+
       startButton.style.display = 'none';
       const { player, bot } = await choosePlayerValueBtns()
       console.log('Player:', player, 'Bot:', bot);
+      //llamar a la funcion de first
     })
   }
 
   const startGame = () => {
-    let isStarted = { start: false }
-    handleStartOfGame(isStarted)
+
+    handleStartOfGame()
   }
 
-  const turn = () => {
+  const turn = (player, bot) => {
   }
 
   return { startGame, };
