@@ -103,19 +103,15 @@ const gameController = (() => {
     })
   }
 
-  const handleStartOfGame = () => {
-    startButton.addEventListener('click', async () => {
-
-      startButton.style.display = 'none';
-      const { player, bot } = await choosePlayerValueBtns()
-      console.log('Player:', player, 'Bot:', bot);
-      //llamar a la funcion de first
-    })
+  const handleStartOfGame = async () => {
+    startButton.style.display = 'none';
+    const { player, bot } = await choosePlayerValueBtns()
+    console.log('Player:', player, 'Bot:', bot);
   }
+  startButton.addEventListener('click', handleStartOfGame)
 
   const startGame = () => {
 
-    handleStartOfGame()
   }
 
   const turn = (player, bot) => {
