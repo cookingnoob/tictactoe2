@@ -129,30 +129,31 @@ const gameController = (() => {
 
   const handleWhoPlays = async (whoBegins, player, bot, turn) => {
     while (turn <= 9) {
-      console.log('turn', turn)
       if (whoBegins == 'human') {
+        console.log('who begins is ', whoBegins, 'turno', turn, 'jugador', player, 'bot', bot)
         const humanTurn = await testingTurns(player, bot)
         turn++
-        handleWhoPlays('bot', player, bot)
-
+        whoBegins = 'bot'
+        handleWhoPlays(whoBegins, player, bot)
       } else if (whoBegins == 'bot') {
+        console.log('who begins is ', whoBegins, 'turno', turn, 'jugador', player, 'bot', bot)
         const botTurn = await testingTurns(bot, player)
         turn++
-        handleWhoPlays('human', player, bot)
-
+        whoBegins = 'human'
+        handleWhoPlays(whoBegins, player, bot)
       }
 
     }
   }
 
   const handleTurn = async (player, bot) => {
-    let turn = 0
-    const whoBegins = await handleWhoTakesFirstTurn(turn)
-    const turns = await handleWhoPlays(whoBegins, player, bot, turn)
+    let turnCount = 0
+    const whoBegins = await handleWhoTakesFirstTurn(turnCount)
+    const turns = await handleWhoPlays(whoBegins, player, bot, turnCount)
 
 
-    const checkWinner = (whoPlayed) => {
-      //checar cada casilla
+    const checkWinner = () => {
+
     }
     const declareWinner = (winner) => {
       //declara si alguien gana o pierde
