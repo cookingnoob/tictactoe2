@@ -127,27 +127,28 @@ const gameController = (() => {
     console.log('siguiente turno', nextPlayer)
   }
 
-  const handleWhoPlays = async (whoBegins, player, bot) => {
-    if (whoBegins == 'human') {
-      const humanTurn = await testingTurns(player, bot)
-      handleWhoPlays('bot', player, bot)
-    } else if (whoBegins == 'bot') {
-      const botTurn = await testingTurns(bot, player)
-      handleWhoPlays('human', player, bot)
+  const handleWhoPlays = async (whoBegins, player, bot, turn) => {
+    while (turn <= 9) {
+      console.log('turn', turn)
+      if (whoBegins == 'human') {
+        const humanTurn = await testingTurns(player, bot)
+        turn++
+        handleWhoPlays('bot', player, bot)
+
+      } else if (whoBegins == 'bot') {
+        const botTurn = await testingTurns(bot, player)
+        turn++
+        handleWhoPlays('human', player, bot)
+
+      }
+
     }
   }
 
   const handleTurn = async (player, bot) => {
-
-    //mientras se acava el juego:
-    //hace loop infinito checar por que
-    // for (let i = 0; i < 9; i++) {
-    const whoBegins = await handleWhoTakesFirstTurn(i)
-    handleWhoPlays(whoBegins, player, bot)
-
-    // }
-
-
+    let turn = 0
+    const whoBegins = await handleWhoTakesFirstTurn(turn)
+    const turns = await handleWhoPlays(whoBegins, player, bot, turn)
 
 
     const checkWinner = (whoPlayed) => {
