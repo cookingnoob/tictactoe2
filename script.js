@@ -80,7 +80,7 @@ const gameController = (() => {
 
   //returns the array of cells with a functional eventListener
   const functionalCell = (value) => {
-    const { cells } = gameboard.renderCells();
+
     cells.forEach((cell, index) => {
       cell.addEventListener("click", () => handleClickTurn(cell, index, value));
     });
@@ -130,31 +130,32 @@ const gameController = (() => {
   const handleWhoPlays = async (whoBegins, player, bot, turn) => {
     while (turn <= 9) {
       if (whoBegins == 'human') {
-        console.log('who begins is ', whoBegins, 'turno', turn, 'jugador', player, 'bot', bot)
-        const humanTurn = await testingTurns(player, bot)
-        turn++
-        whoBegins = 'bot'
-        handleWhoPlays(whoBegins, player, bot)
+        const humanTurn = await testingTurns(player, bot);
+        turn++;
+        whoBegins = 'bot';
+        handleWhoPlays(whoBegins, player, bot);
       } else if (whoBegins == 'bot') {
-        console.log('who begins is ', whoBegins, 'turno', turn, 'jugador', player, 'bot', bot)
-        const botTurn = await testingTurns(bot, player)
-        turn++
-        whoBegins = 'human'
-        handleWhoPlays(whoBegins, player, bot)
+        const botTurn = await testingTurns(bot, player);
+        turn++;
+        whoBegins = 'human';
+        handleWhoPlays(whoBegins, player, bot);
       }
-
     }
   }
 
   const handleTurn = async (player, bot) => {
     let turnCount = 0
+    const { cells } = gameboard.renderCells();
     const whoBegins = await handleWhoTakesFirstTurn(turnCount)
     const turns = await handleWhoPlays(whoBegins, player, bot, turnCount)
 
 
-    const checkWinner = () => {
-
+    const checkWinner = (turnCount) => {
+      if (turnCount == 9) {
+        console.log('empate')
+      }
     }
+    checkWinner()
     const declareWinner = (winner) => {
       //declara si alguien gana o pierde
     }
