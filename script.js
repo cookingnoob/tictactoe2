@@ -74,15 +74,10 @@ const gameController = (() => {
     console.log(`index: ${index} cell: ${cell.innerHTML}`);
   };
 
-  const handleClickTurn = (cell, index, value) => {
-    addValueToCells(cell, index, value);
-  };
-
   //returns the array of cells with a functional eventListener
-  const functionalCell = (value) => {
-
+  const functionalCell = (value, cells) => {
     cells.forEach((cell, index) => {
-      cell.addEventListener("click", () => handleClickTurn(cell, index, value));
+      cell.addEventListener("click", () => addValueToCells(cell, index, value));
     });
   };
 
@@ -113,49 +108,47 @@ const gameController = (() => {
 
   startButton.addEventListener('click', handleStartOfGame)
 
-  const handleWhoTakesFirstTurn = async (turn) => {
-    let begins;
+  const humanTurn = (turn) => {
+    console.log(turn)
+    if (turn >= 9) {
+      return
+    }
+    console.log('turno del humano')
+    turn++
+    checkWinner(turn)
+    botTurn(turn)
+  }
+
+  const botTurn = (turn) => {
+    console.log(turn)
+    if (turn >= 9) {
+      return
+    }
+    console.log('turno del bot')
+    turn++
+    checkWinner(turn)
+    humanTurn(turn)
+  }
+  const checkWinner = (turn) => {
+    console.log('checando si gano alguien')
+    if (turn === 9) {
+      console.log('empate')
+    }
+  }
+
+  const handleWhoTakesFirstTurn = (turn) => {
     if (turn == 0) {
-      const random = await Math.floor(Math.random() * 100);
-      random > 50 ? begins = 'bot' : begins = 'human'
-    }
-    return begins
-  }
-
-  const testingTurns = (playerValue, nextPlayer) => {
-    console.log(playerValue, 'jugando')
-    console.log('siguiente turno', nextPlayer)
-  }
-
-  const handleWhoPlays = async (whoBegins, player, bot, turn) => {
-    while (turn <= 9) {
-      if (whoBegins == 'human') {
-        const humanTurn = await testingTurns(player, bot);
-        turn++;
-        whoBegins = 'bot';
-        handleWhoPlays(whoBegins, player, bot);
-      } else if (whoBegins == 'bot') {
-        const botTurn = await testingTurns(bot, player);
-        turn++;
-        whoBegins = 'human';
-        handleWhoPlays(whoBegins, player, bot);
-      }
+      const random = Math.floor(Math.random() * 100);
+      random > 50 ? humanTurn(turn) : botTurn(turn)
     }
   }
+
 
   const handleTurn = async (player, bot) => {
     let turnCount = 0
     const { cells } = gameboard.renderCells();
-    const whoBegins = await handleWhoTakesFirstTurn(turnCount)
-    const turns = await handleWhoPlays(whoBegins, player, bot, turnCount)
+    handleWhoTakesFirstTurn(turnCount)
 
-
-    const checkWinner = (turnCount) => {
-      if (turnCount == 9) {
-        console.log('empate')
-      }
-    }
-    checkWinner()
     const declareWinner = (winner) => {
       //declara si alguien gana o pierde
     }
